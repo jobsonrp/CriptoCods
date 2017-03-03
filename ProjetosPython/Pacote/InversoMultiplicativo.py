@@ -13,4 +13,4 @@ def inversoMultiplicativo(a, P): # Inverso Multiplicativo de "a" mod "P" = x, on
     if mdc != 1: return False
     return x0 % P
 
-print(inversoMultiplicativo(630,11)) 
+print(inversoMultiplicativo(693,10)) 
