@@ -85,9 +85,6 @@ def partilharSenha(n,k):
     return senhasPartidas
 
 def recuperarSenha(n,k):
-    nPares = 0
-    while nPares < k or nPares > n:
-        nPares = int(input("Número de pessoas presentes para recuperar a senha (>=%d e <=%d):" % (k,n) ))  
     vetorModulo = []
     vetorResto = []
     for i in range(nPares):
@@ -107,11 +104,14 @@ n = int(input("Número total de pessoas:"))
 k = int(input("Número mínimo de pessoas necessárias para recuperar a senha:"))
 print("Conjunto de senha =",partilharSenha(n,k))
 print("")
+print("--- Recuperação da Senha ---")
+nPares = 0
+while nPares < k or nPares > n:
+    nPares = int(input("Número de pessoas presentes para recuperar a senha (>=%d e <=%d):" % (k,n) )) 
 senha = recuperarSenha(n, k)
 if senha != False:
     print("Senha Geral =",senha)
 else:
     print("Erro ao digitar os pares de senha.")
 
-      
       

@@ -107,5 +107,3 @@ if verificarVetorCoPrimos(vetorModulo):
 else:
     print("Erro ao digitar os pares de senha.")
 
-      
-      
