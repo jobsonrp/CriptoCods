@@ -28,7 +28,7 @@ def primitiva (a,p):
     restos=[(a**n)%p for n in range (p-1)]
     return (restos)
 
-print('euclides_mdc_extendido = ',AEE(348, 156))
+print('euclides_mdc_extendido = ',AEE(11, 10))
 print('euclides_mdc = ',euclides_mdc(348, 156))
 print('euclides_recursivo_mdc = ',euclides_recursivo_mdc(348, 156))
 print('primitivas = ',primitiva(3,5))
