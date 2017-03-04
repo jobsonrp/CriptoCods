@@ -23,8 +23,8 @@ def verificarCoPrimo(mA, mB):
 def verificarVetorCoPrimos(vetor):
     for i in range(0,len(vetor)-1):
         for j in range(i+1,len(vetor)):
-            if verificarCoPrimo(modulos[i], modulos[j]) == False:
-                print("Altere o vetor dos Módulos: %d e %d não são Coprimos." % (modulos[i], modulos[j]) )
+            if verificarCoPrimo(vetor[i], vetor[j]) == False:
+                print("Altere o vetor dos Módulos: %d e %d não são Coprimos." % (vetor[i], vetor[j]) )
                 return False
     return True
 
@@ -43,8 +43,8 @@ def teoremaChinesDosRestos(restos, modulos):
         x += restos[i]*B[i]*ratios[i]
     return x % M
     
-modulos = [11,88,9,7] 
-restos = [6,3,4,0] 
+modulos = [64,23] #[[23, 14], [41, 32], [64, 38], [97, 61], [99, 43]] = 934
+restos = [38,14] 
 if verificarVetorCoPrimos(modulos):
     solucao = teoremaChinesDosRestos(restos, modulos)
     print(solucao)
