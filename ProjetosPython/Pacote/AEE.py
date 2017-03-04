@@ -8,4 +8,4 @@ def AEE(valor1, valor2): # Resulta no MDC entre valor1 e valor2, mais os fatores
         y0,y1 = y1, y0-q*y1
     return (mdc,x0,y0)
 
-print(AEE(141, 96)) 
+print(AEE(141, 98)) 
