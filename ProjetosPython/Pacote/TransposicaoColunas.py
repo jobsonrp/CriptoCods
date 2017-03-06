@@ -32,8 +32,7 @@ def texto_matriz(texto, num_colunas):
 def cifra(texto, chave):
     complemento = len(texto) % len(chave)
     if complemento > 0:
-        texto = texto.ljust(len(texto) + len(chave) - complemento)
-
+        texto = texto.ljust(len(texto) + len(chave) - complemento) # Completa o texto com espaço (" ") para que ( len(novoTexto) % len(chave) ) = 0
     matriz = texto_matriz(texto, len(chave))
     print(matriz)
 
@@ -55,9 +54,39 @@ def decifra(cifrado, chave):
 
     return result
 
+def getAlfabeto():
+    return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.'
+
+def getAlfabetoCompleto():
+    return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.'
+
+def limparTexto(texto):
+    alfabetoCompleto = getAlfabetoCompleto()
+    novotexto = texto;
+    for caractere in novotexto:
+        if not (caractere in alfabetoCompleto):
+            novotexto = novotexto.replace(caractere,"")
+    return novotexto.upper();
+
+def intChave(chave):
+    alfabeto = getAlfabeto()
+    for i in range(len(alfabeto)):               
+        if j == len(chave):
+            break
+        else:
+            if i == chave[j]:
+                chaveInt 
+                j += 1
+            
+    
+    
+    return chaveInt
+
 if __name__ == '__main__':
     try:
         opcao = ""
+        
+        
         while opcao != "x":
             opcao = input("""Digite uma das opções abaixo:
             1 - Cifrar
@@ -67,12 +96,14 @@ if __name__ == '__main__':
             
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
+                texto_claro = limparTexto(texto_claro)
                 chave = input("Chave (Numeros): ")
                 colunas = valida_chave(chave)
                 result = cifra(texto_claro, colunas)
                 
             elif opcao == "2":
                 texto_cifrado = input("Texto a ser Decifrado: ")
+                texto_cifrado = limparTexto(texto_cifrado)
                 chave = input("Chave (Numeros): ")
                 colunas = valida_chave(chave)
                 result = decifra(texto_cifrado, colunas)
