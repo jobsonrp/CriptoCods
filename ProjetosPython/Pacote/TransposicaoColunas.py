@@ -82,14 +82,21 @@ def intChave(chave):
     for caracter in vetorPosicao:
         posicao = vetorPosicaoOrdenado.index(caracter)
         vetorChaveNumeros.append(posicao+1)      
-    return vetorPosicao, vetorChaveNumeros #, vetorIntChave
+    return vetorChaveNumeros
+
+def cifrarDecifrar(opcao,texto,chave):
+    texto = limparTexto(texto)
+    chave = intChave(chave)
+    colunas = valida_chave(chave)
+    if opcao == "1":
+        result = cifra(texto, colunas)
+    if opcao == "2":
+        result = decifra(texto, colunas)
+    return result    
 
 if __name__ == '__main__':
     try:
-        opcao = ""
-        a, b = intChave("chave")
-        print("vPos , intChave = ",a, b)
-        print("**********")    
+        opcao = ""  
         while opcao != "x":
             opcao = input("""Digite uma das opções abaixo:
             1 - Cifrar
@@ -99,17 +106,13 @@ if __name__ == '__main__':
             
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
-                texto_claro = limparTexto(texto_claro)
-                chave = input("Chave (Numeros): ")
-                colunas = valida_chave(chave)
-                result = cifra(texto_claro, colunas)
-                
+                chave = input("Chave: ")               
+                result = cifrarDecifrar(opcao, texto_claro, chave)
+                    
             elif opcao == "2":
                 texto_cifrado = input("Texto a ser Decifrado: ")
-                texto_cifrado = limparTexto(texto_cifrado)
-                chave = input("Chave (Numeros): ")
-                colunas = valida_chave(chave)
-                result = decifra(texto_cifrado, colunas)
+                chave = input("Chave: ")
+                result = cifrarDecifrar(opcao, texto_cifrado, chave)
             else:
                 break
             print('Resultado: "%s"' % result)
