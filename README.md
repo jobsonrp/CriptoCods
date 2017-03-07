@@ -1,1 +1,1 @@
-Alguns códigos de cifras mais conhecidas.
+Alguns códigos de cifras conhecidas.
