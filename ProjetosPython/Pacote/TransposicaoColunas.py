@@ -71,35 +71,22 @@ def limparTexto(texto):
 def intChave(chave):
     alfabeto = getAlfabeto()
     chave = limparTexto(chave)
-    print(chave)
-    vetorIntChave = [1]
-    vetorPosicao = [ alfabeto.index(chave[0]) ]
-    for i in range(1,len(chave)):
-        print("i= ",i )
-        posicao = alfabeto.index(chave[i])
-        print(posicao + 8)
+    vetorPosicao = []
+    vetorPosicaoOrdenado = []
+    vetorChaveNumeros = []
+    for caracter in chave:
+        posicao = alfabeto.index(caracter)
         vetorPosicao.append(posicao)
-        vetorIntChave.append(len(vetorPosicao))
-        print("vpos = ", vetorPosicao)
-        for j in range(len(vetorPosicao)-1):
-            print("j = ",j)
-            print("vInt = ", vetorIntChave)
-            print("vpos i= ",vetorPosicao[i] )
-            print("vpos j= ",vetorPosicao[j] )
-            print("**********")
-            if vetorPosicao[i] < vetorPosicao[j]:
-                vetorIntChave[i] = vetorIntChave[j]
-                vetorIntChave[j] += 1
-                print("######")
-                print("**** if vi= ",vetorIntChave[i] )
-                print("**** if vj= ",vetorIntChave[j] )
-                
-    return vetorPosicao, vetorIntChave
+        vetorPosicaoOrdenado.append(posicao)
+    vetorPosicaoOrdenado.sort()
+    for caracter in vetorPosicao:
+        posicao = vetorPosicaoOrdenado.index(caracter)
+        vetorChaveNumeros.append(posicao+1)      
+    return vetorPosicao, vetorChaveNumeros #, vetorIntChave
 
 if __name__ == '__main__':
     try:
         opcao = ""
-        print("Teste123")
         a, b = intChave("chave")
         print("vPos , intChave = ",a, b)
         print("**********")    
