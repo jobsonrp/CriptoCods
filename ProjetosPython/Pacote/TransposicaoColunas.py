@@ -23,8 +23,7 @@ def texto_matriz(texto, num_colunas, chave):
         if y == num_colunas:
             y = 0
         matriz[y] += c
-        y += 1
-        
+        y += 1     
     print("Matriz =", matriz)
     print("Chave =", chave)
     print("c-0", chave[0])
@@ -47,19 +46,26 @@ def cifra(texto, chave):
     print(texto)
     matriz, matrizReordenada = texto_matriz(texto, len(chave), chave)
     print(matriz)
-    #matriz_reordenada = [matriz[x - 1] for x in chave]
     print(matrizReordenada)
     return ''.join(matrizReordenada)
 
 def decifra(cifrado, chave):
-    if (len(cifrado) % len(chave)) > 0:
-        raise Exception('Texto cifrado não pode ser decifrado com essa chave')
+    matrizReordenada = list('' for x in range(len(chave)))
+    """if (len(cifrado) % len(chave)) > 0:
+        raise Exception('Texto cifrado não pode ser decifrado com essa chave')"""
     n = len(cifrado)//len(chave)
     matriz_cifrada = [cifrado[i:i+n] for i in range(0, len(cifrado), n)]
-    print(matriz_cifrada)
-    result = ''
+    print("Matriz_cifrada = ",matriz_cifrada)
+    for j in range(len(chave)):
+        print("************** j = ",j)
+        print("Chave j = ", chave[j])
+        x = chave[j]-1
+        print("m x = ",matriz_cifrada[x] )
+        matrizReordenada[x] = matriz_cifrada[j]
+    print("matrizReordenada = ",matrizReordenada)
+    result = ""
     for y in range(n):
-        result += ''.join([matriz_cifrada[chave.index(x)][y:y+1] for x in range(1, len(chave) + 1)])
+        result += ''.join([matrizReordenada[chave.index(x)][y:y+1] for x in range(1, len(chave) + 1)])
     return result
 
 def getAlfabeto():
