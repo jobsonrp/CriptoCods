@@ -1,57 +1,65 @@
 # -*- coding: utf-8 -*-
+from random import randint
 
 def valida_chave(chave):
     try:
         colunas = list()
         for n in chave:
             colunas.append(int(n))
-
         colunas_ordenadas = sorted(colunas)
         for i in range(1, len(chave)):
             if i != colunas_ordenadas[i-1]:
                 print(colunas_ordenadas)
                 raise ValueError()
-
         return colunas
-
     except ValueError as e:
-        raise Exception('Chave precisa conter somente números sequenciais a partir de 1 (não ordenados)')
+        raise Exception('A Chave não pode conter letras repetidas.')
 
-
-def texto_matriz(texto, num_colunas):
+def texto_matriz(texto, num_colunas, chave):
     matriz = list('' for x in range(num_colunas))
+    matrizReordenada = list('' for x in range(num_colunas))
     y = 0
     for c in texto:
         if y == num_colunas:
             y = 0
         matriz[y] += c
         y += 1
-    return matriz
-
+        
+    print("Matriz =", matriz)
+    print("Chave =", chave)
+    print("c-0", chave[0])
+    for j in range(num_colunas):
+        print("************** j = ",j)
+        print("Chave j = ", chave[j])
+        x = chave[j]-1
+        print("m x = ",matriz[x] )
+        matrizReordenada[x] = matriz[j]
+    return matriz, matrizReordenada
 
 def cifra(texto, chave):
+    complementoTexto = ""
+    alfabeto = getAlfabeto()
     complemento = len(texto) % len(chave)
     if complemento > 0:
-        texto = texto.ljust(len(texto) + len(chave) - complemento) # Completa o texto com espaço (" ") para que ( len(novoTexto) % len(chave) ) = 0
-    matriz = texto_matriz(texto, len(chave))
+        for i in range(len(chave) - complemento):
+            complementoTexto += alfabeto[randint(0,25)]
+        texto += complementoTexto
+    print(texto)
+    matriz, matrizReordenada = texto_matriz(texto, len(chave), chave)
     print(matriz)
-
-    matriz_reordenada = [matriz[x - 1] for x in chave]
-    return ''.join(matriz_reordenada)
-
+    #matriz_reordenada = [matriz[x - 1] for x in chave]
+    print(matrizReordenada)
+    return ''.join(matrizReordenada)
 
 def decifra(cifrado, chave):
     if (len(cifrado) % len(chave)) > 0:
         raise Exception('Texto cifrado não pode ser decifrado com essa chave')
-
     n = len(cifrado)//len(chave)
     matriz_cifrada = [cifrado[i:i+n] for i in range(0, len(cifrado), n)]
     print(matriz_cifrada)
-
     result = ''
     for y in range(n):
         result += ''.join([matriz_cifrada[chave.index(x)][y:y+1] for x in range(1, len(chave) + 1)])
-
     return result
 
 def getAlfabeto():
@@ -81,14 +89,15 @@ def intChave(chave):
     vetorPosicaoOrdenado.sort()
     for caracter in vetorPosicao:
         posicao = vetorPosicaoOrdenado.index(caracter)
-        vetorChaveNumeros.append(posicao+1)      
+        vetorChaveNumeros.append(posicao+1)   
+    print(vetorChaveNumeros)   
     return vetorChaveNumeros
 
 def cifrarDecifrar(opcao,texto,chave):
-    texto = limparTexto(texto)
     chave = intChave(chave)
     colunas = valida_chave(chave)
     if opcao == "1":
+        texto = limparTexto(texto)
         result = cifra(texto, colunas)
     if opcao == "2":
         result = decifra(texto, colunas)
@@ -114,6 +123,7 @@ if __name__ == '__main__':
                 chave = input("Chave: ")
                 result = cifrarDecifrar(opcao, texto_cifrado, chave)
             else:
+                print("O aplicativo foi encerrado.")
                 break
             print('Resultado: "%s"' % result)
             print("")
