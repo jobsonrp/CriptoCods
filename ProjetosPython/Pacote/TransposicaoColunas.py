@@ -1,39 +1,30 @@
 # -*- coding: utf-8 -*-
 from random import randint
 
-def valida_chave(chave):
-    try:
-        colunas = list()
-        for n in chave:
-            colunas.append(int(n))
-        colunas_ordenadas = sorted(colunas)
-        for i in range(1, len(chave)):
-            if i != colunas_ordenadas[i-1]:
-                print(colunas_ordenadas)
-                raise ValueError()
-        return colunas
-    except ValueError as e:
-        raise Exception('A Chave não pode conter letras repetidas.')
+def validarChave(chave):
+    alfabeto = getAlfabetoCompleto()
+    for caracter in chave:
+        if caracter not in alfabeto:
+            return False
+    return True
 
-def texto_matriz(texto, num_colunas, chave):
-    matriz = list('' for x in range(num_colunas))
-    matrizReordenada = list('' for x in range(num_colunas))
+def texto_matriz(texto, chave):
+    matriz = list('' for x in range(len(chave)))
     y = 0
     for c in texto:
-        if y == num_colunas:
+        if y == len(chave):
             y = 0
         matriz[y] += c
-        y += 1     
-    print("Matriz =", matriz)
-    print("Chave =", chave)
-    print("c-0", chave[0])
-    for j in range(num_colunas):
-        print("************** j = ",j)
-        print("Chave j = ", chave[j])
-        x = chave[j]-1
-        print("m x = ",matriz[x] )
-        matrizReordenada[x] = matriz[j]
+        y += 1  
+    matrizReordenada = reordenarMatriz(matriz, chave)          
     return matriz, matrizReordenada
+
+def reordenarMatriz(matriz, chave):
+    matrizReordenada = list('' for x in range(len(chave)))
+    for j in range(len(chave)):
+        x = chave[j]-1
+        matrizReordenada[x] = matriz[j]
+    return matrizReordenada
 
 def cifra(texto, chave):
     complementoTexto = ""
@@ -44,25 +35,17 @@ def cifra(texto, chave):
             complementoTexto += alfabeto[randint(0,25)]
         texto += complementoTexto
     print(texto)
-    matriz, matrizReordenada = texto_matriz(texto, len(chave), chave)
-    print(matriz)
-    print(matrizReordenada)
+    matriz, matrizReordenada = texto_matriz(texto, chave)
+    print("Matriz = ",matriz)
+    print("MatrizReordenada = ",matrizReordenada)
     return ''.join(matrizReordenada)
 
 def decifra(cifrado, chave):
-    matrizReordenada = list('' for x in range(len(chave)))
-    """if (len(cifrado) % len(chave)) > 0:
-        raise Exception('Texto cifrado não pode ser decifrado com essa chave')"""
     n = len(cifrado)//len(chave)
     matriz_cifrada = [cifrado[i:i+n] for i in range(0, len(cifrado), n)]
     print("Matriz_cifrada = ",matriz_cifrada)
-    for j in range(len(chave)):
-        print("************** j = ",j)
-        print("Chave j = ", chave[j])
-        x = chave[j]-1
-        print("m x = ",matriz_cifrada[x] )
-        matrizReordenada[x] = matriz_cifrada[j]
-    print("matrizReordenada = ",matrizReordenada)
+    matrizReordenada = reordenarMatriz(matriz_cifrada, chave)        
+    print("MatrizReordenada = ",matrizReordenada)
     result = ""
     for y in range(n):
         result += ''.join([matrizReordenada[chave.index(x)][y:y+1] for x in range(1, len(chave) + 1)])
@@ -84,7 +67,7 @@ def limparTexto(texto):
 
 def intChave(chave):
     alfabeto = getAlfabeto()
-    chave = limparTexto(chave)
+    #chave = limparTexto(chave)
     vetorPosicao = []
     vetorPosicaoOrdenado = []
     vetorChaveNumeros = []
@@ -101,17 +84,16 @@ def intChave(chave):
 
 def cifrarDecifrar(opcao,texto,chave):
     chave = intChave(chave)
-    colunas = valida_chave(chave)
     if opcao == "1":
         texto = limparTexto(texto)
-        result = cifra(texto, colunas)
+        result = cifra(texto, chave)
     if opcao == "2":
-        result = decifra(texto, colunas)
+        result = decifra(texto, chave)
     return result    
 
 if __name__ == '__main__':
     try:
-        opcao = ""  
+        opcao = ""
         while opcao != "x":
             opcao = input("""Digite uma das opções abaixo:
             1 - Cifrar
@@ -121,12 +103,18 @@ if __name__ == '__main__':
             
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
-                chave = input("Chave: ")               
+                chave = input("Chave: ")
+                while not validarChave(chave):
+                    chave = input("Digite uma chave válida (letras do alfabeto: ")
+                chave = limparTexto(chave)               
                 result = cifrarDecifrar(opcao, texto_claro, chave)
                     
             elif opcao == "2":
                 texto_cifrado = input("Texto a ser Decifrado: ")
                 chave = input("Chave: ")
+                while not validarChave(chave):
+                    chave = input("Digite uma chave válida (letras do alfabeto: ")
+                chave = limparTexto(chave)  
                 result = cifrarDecifrar(opcao, texto_cifrado, chave)
             else:
                 print("O aplicativo foi encerrado.")
