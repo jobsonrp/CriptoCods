@@ -1,5 +1,5 @@
 def AEE(valor1, valor2): # Resulta no MDC entre valor1 e valor2, mais os fatores de Euclides
-    x0,x1,y0,y1 = 1,0,0,1 # Matriz Identidade
+    x0,x1,y0,y1 = 1,0,0,1
     mdc = valor1
     n = valor2
     while n!=0:
