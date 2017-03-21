@@ -92,23 +92,23 @@ def partilharSenha(n,k):
     for mod in modulos:
         y = senha % mod
         partesDaSenha.append([mod,y])
-    
     return partesDaSenha
 
-def recuperarSenha(n,k):
+def recuperarSenha(n,k,nPessoasRecuperar):
     vetorModulo = []
     vetorResto = []
-    for i in range(nPares):
-        modulo = int(input("Pessoa%d, Primeiro número:" % (i+1) ))
+    for i in range(nPessoasRecuperar):
+        modulo = int(input("Pessoa%d, Digite o primeiro número:" % (i+1) ))
         vetorModulo.append(modulo)
-        resto = int(input("Pessoa%d, Segundo número:" % (i+1) ))
+        resto = int(input("Pessoa%d, Digite o segundo número:" % (i+1) ))
         vetorResto.append(resto)
         print("")
     if verificarVetorCoPrimos(vetorModulo):
         senha = teoremaChinesDosRestos(vetorResto, vetorModulo)
-        return senha
+        result = senha
     else:
-        return False
+        result = False
+    return result
     
 print("******* Sistema de Partilha de Senha *********")
 n, k = 0, 0
@@ -116,8 +116,8 @@ while ( not(n > 2) or not(2 <= k < n) ):
     print('')
     print('--- Digite "n" e "k" inteiros onde "n > 2 e 2 <= k < n". ---')
     n = input("Passo1 - Digite o número total de pessoas (n):")
-    k = input("Passo2 - Digite o número mínimo de pessoas necessárias para recuperar a senha (k):")
     n = verificarSeInteiro(n)
+    k = input("Passo2 - Digite o número mínimo de pessoas necessárias para recuperar a senha (k):")
     k = verificarSeInteiro(k)
 
 print("* Passos executados na função partilharSenha:")
@@ -126,10 +126,10 @@ print("Resultado:")
 print("Passo8 - Conjunto de pares da senha =",paresDeSenha)
 print("")
 print("--- Recuperação da Senha ---")
-nPares = 0
-while nPares < k or nPares > n:
-    nPares = int(input("Digite o número de pessoas presentes para recuperar a senha (>=%d e <=%d):" % (k,n) )) 
-senha = recuperarSenha(n, k)
+nPessoasRecuperar = 0
+while nPessoasRecuperar < k or nPessoasRecuperar > n:
+    nPessoasRecuperar = int(input("Digite o número de pessoas presentes para recuperar a senha (>=%d e <=%d):" % (k,n) )) 
+senha = recuperarSenha(n, k, nPessoasRecuperar)
 if senha != False:
     print("Senha Geral =",senha)
 else:
