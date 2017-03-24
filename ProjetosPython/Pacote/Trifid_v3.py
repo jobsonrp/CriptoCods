@@ -16,14 +16,17 @@ def geradorCodigos():
                 codigos.append(str(i)+str(j)+str(k))
     return codigos
 
-def dicionarioTrifidDinamica():
+def gerarChave():
     alfabeto = getAlfabeto()
     alfabetoAleatorio = ''.join(sample(alfabeto,len(alfabeto)))
+    return alfabetoAleatorio
+
+def criarDicionarioTrifid(chave):
     codigos = geradorCodigos()
     dicionarioLetraCodigo = {}
-    for i in range(0, len(alfabetoAleatorio)):   
-        dicionarioLetraCodigo[alfabetoAleatorio[i]]=codigos[i]
-    return dicionarioLetraCodigo, alfabetoAleatorio
+    for i in range(0, len(chave)):   
+        dicionarioLetraCodigo[chave[i]]=codigos[i]
+    return dicionarioLetraCodigo
 
 def inverterDicionario(dicionario):
     dicionarioInvertido = {}
@@ -70,19 +73,36 @@ def decifrarTrifid(textocifrado):
         textoOriginal += dicionarioInvertido[codDecifrado]         
     return textoOriginal
 
-dicionario, alfabetoAleatorio = dicionarioTrifidDinamica()
-dicionarioInvertido = inverterDicionario(dicionario)
-print('Dicionario (Chave)= ',dicionario)
-print('Dicionario Invertido = ',dicionarioInvertido)
-print('Alfabeto Aleatorio (Chave)= ',alfabetoAleatorio)
+print("******* Cifra Trifid *********")
+print('Opções:')
+print('1 - Para gerar uma chave aleatória.')
+print('2 - Para entrar com uma chave válida.')
+print('')
+opcao = input('Digite o número da opção escolhida:')
+if (opcao == '1'):
+    chave = gerarChave()
+elif (opcao == '2'):
+    chave = input('Digite uma chave válida (26 letras diferentes + 1 símbolo):')
+    chave = limparTexto(chave)
+else:
+    print('Numero invalido para opção digitada.')
 
+dicionario = criarDicionarioTrifid(chave)
+dicionarioInvertido = inverterDicionario(dicionario)
+print('Dicionario (Chave) =',dicionario)
+print('Dicionario Invertido =',dicionarioInvertido)
+print('Chave =',chave)
+print('') 
+texto = input('Digite o texto a ser Cifrado: ')
+texto = limparTexto(texto)
+
+print('Texto Limpo =',texto)
 print('')
 print('############### Resposta ##################')
 
-textoCifrado = cifrarTrifid('T R E A T Y E N D S B O E R W A R .')
-print('Texto Original (limpo) = ', limparTexto('T R E A T Y E N D S B O E R W A R .'))    
+textoCifrado = cifrarTrifid(texto)
 print('Texto Cifrado = ',textoCifrado);
 print('')
 textoDecifrado = decifrarTrifid(textoCifrado)
-print('Texto Original (decifrado) = ',textoDecifrado)
+print('Texto Decifrado =',textoDecifrado)
 
