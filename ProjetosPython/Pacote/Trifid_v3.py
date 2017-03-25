@@ -114,8 +114,8 @@ while True:
                 texto = limparTexto(texto)
                 print('     Texto Limpo =',texto)   
                 print('')
-                print('############### Resposta ##################')
                 textoCifrado = cifrarTrifid(texto, chave)
+                print('############### Resposta ##################')
                 print('     Texto Cifrado = ',textoCifrado);
                 print('')
             else:
@@ -128,8 +128,8 @@ while True:
         texto = limparTexto(texto)
         print('Texto Limpo =',texto) 
         print('')
-        print('############### Resposta ##################')
         textoDecifrado = decifrarTrifid(texto, chave)
+        print('############### Resposta ##################')
         print('Texto Decifrado =',textoDecifrado)
         print('')
 
