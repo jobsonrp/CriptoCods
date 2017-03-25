@@ -42,67 +42,98 @@ def limparTexto(texto):
             novotexto = novotexto.replace(caractere,"")
     return novotexto.upper();
 
-def cifrarTrifid(texto):
+def cifrarTrifid(texto, chave):
+    dicLetraCod, dicCodLetra = getDicionarios(chave)
     texto = limparTexto(texto)
     codigosMisturados = []
     codCifrado = ''
     textoCifrado = ''
     listaCodCifrados = []
     for caracter in texto:
-        codigosMisturados.append(dicionario[caracter])
+        codigosMisturados.append(dicLetraCod[caracter])
     for linha in range(3):
         for cod in codigosMisturados:
             codCifrado += cod[linha]
     for indice in range(0,len(codCifrado)-1,3):
         listaCodCifrados.append(codCifrado[indice : indice+3])
     for novoCodigo in listaCodCifrados:
-        textoCifrado += dicionarioInvertido[novoCodigo]
+        textoCifrado += dicCodLetra[novoCodigo]
     return textoCifrado
 
-def decifrarTrifid(textocifrado):
+def getDicionarios(chave):
+    dicionario = criarDicionarioTrifid(chave)
+    dicionarioInvertido = inverterDicionario(dicionario)
+    print('Dicionario (Chave) =',dicionario)
+    print('Dicionario Invertido =',dicionarioInvertido)
+    print('Chave =',chave)
+    print('')
+    return dicionario, dicionarioInvertido
+
+def decifrarTrifid(textocifrado, chave):
+    dicLetraCod, dicCodLetra = getDicionarios(chave)
     texto = limparTexto(textocifrado)
     comprimentoTexto = len(texto)
     codCifrados = ''
     textoOriginal = ''
     listCodDecifrados = []
     for caracter in texto:
-        codCifrados += dicionario[caracter]
+        codCifrados += dicLetraCod[caracter]
     for posicaoLetra in range(comprimentoTexto):
         listCodDecifrados.append(codCifrados[posicaoLetra] + codCifrados[posicaoLetra + comprimentoTexto] + codCifrados[posicaoLetra + 2*comprimentoTexto])
     for codDecifrado in listCodDecifrados:
-        textoOriginal += dicionarioInvertido[codDecifrado]         
+        textoOriginal += dicCodLetra[codDecifrado]         
     return textoOriginal
 
-print("******* Cifra Trifid *********")
-print('Opções:')
-print('1 - Para gerar uma chave aleatória.')
-print('2 - Para entrar com uma chave válida.')
-print('')
-opcao = input('Digite o número da opção escolhida:')
-if (opcao == '1'):
-    chave = gerarChave()
-elif (opcao == '2'):
-    chave = input('Digite uma chave válida (26 letras diferentes + 1 símbolo):')
-    chave = limparTexto(chave)
-else:
-    print('Numero invalido para opção digitada.')
+while True:
+    print("******* Cifra Trifid *********")
+    print('')    
+    print('Opções de Funções:')
+    print('1 - Para Cifrar uma mensagem.')
+    print('2 - Para Decifrar uma mensagem.')
+    print('s - Para Sair do sistema.')
+    funcao = input('Digite uma das opções mostradas acima:')
+    print('')
+    if funcao == '1':
+        while True:
+            print('     Opções para Cifrar:')
+            print('     3 - Para gerar uma chave aleatória.')
+            print('     4 - Para entrar com uma chave válida.')
+            print('     v - Para Voltar.')
+            print('')   
+            opcao = input('     Digite uma das opções mostradas acima:')
+            print('')
+            if (opcao == 'v'):
+                break 
+            if opcao == '3' or opcao == '4':
+                if (opcao == '3'):
+                    chave = gerarChave()
+                elif (opcao == '4'):
+                    chave = input('     Digite uma chave válida (26 letras diferentes + 1 símbolo):')
+                    chave = limparTexto(chave)
+                texto = input('     Digite o texto a ser Cifrado: ')
+                texto = limparTexto(texto)
+                print('     Texto Limpo =',texto)   
+                print('')
+                print('############### Resposta ##################')
+                textoCifrado = cifrarTrifid(texto, chave)
+                print('     Texto Cifrado = ',textoCifrado);
+                print('')
+            else:
+                print('     Numero invalido para opção digitada.')    
+    elif funcao == '2':
+        chave = input('Digite uma chave válida (26 letras diferentes + 1 símbolo):')
+        chave = limparTexto(chave)
+        print('')
+        texto = input('Digite o texto Cifrado a ser descoberto:')
+        texto = limparTexto(texto)
+        print('Texto Limpo =',texto) 
+        print('')
+        print('############### Resposta ##################')
+        textoDecifrado = decifrarTrifid(texto, chave)
+        print('Texto Decifrado =',textoDecifrado)
+        print('')
 
-dicionario = criarDicionarioTrifid(chave)
-dicionarioInvertido = inverterDicionario(dicionario)
-print('Dicionario (Chave) =',dicionario)
-print('Dicionario Invertido =',dicionarioInvertido)
-print('Chave =',chave)
-print('') 
-texto = input('Digite o texto a ser Cifrado: ')
-texto = limparTexto(texto)
-
-print('Texto Limpo =',texto)
-print('')
-print('############### Resposta ##################')
-
-textoCifrado = cifrarTrifid(texto)
-print('Texto Cifrado = ',textoCifrado);
-print('')
-textoDecifrado = decifrarTrifid(textoCifrado)
-print('Texto Decifrado =',textoDecifrado)
-
+    elif (funcao == 's'):
+        print('Sistema encerrado pelo usuario.')
+        break 
+        
