@@ -69,7 +69,6 @@ def limparTexto(texto):
 
 def intChave(chave):
     alfabeto = getAlfabeto()
-    #chave = limparTexto(chave)
     vetorPosicao = []
     vetorPosicaoOrdenado = []
     vetorChaveNumeros = []
@@ -80,7 +79,32 @@ def intChave(chave):
     vetorPosicaoOrdenado.sort()
     for caracter in vetorPosicao:
         posicao = vetorPosicaoOrdenado.index(caracter)
+        if posicao in vetorChaveNumeros:
+            vetorChaveNumeros.append(posicao+1)
         vetorChaveNumeros.append(posicao+1)      
+    return vetorChaveNumeros
+
+def posicoesLetraChave(letra, chave):
+    posicao = 0
+    inicio = 0
+    vetorPosicoesLetra = []
+    while posicao != -1:
+        posicao = chave.find(letra,inicio)
+        vetorPosicoesLetra.append(posicao)
+        inicio = posicao + 1
+    return vetorPosicoesLetra[:-1]
+
+def intChaveLetrasRepetidas(chave):
+    alfabeto = getAlfabetoCompleto()
+    vetorChaveNumeros = list('' for x in range(len(chave)))
+    total = 1
+    for caracter in alfabeto:
+        
+        if caracter in vetorChaveNumeros:
+            vetorChaveNumeros[chave.index(caracter)] = total + 1
+        else:
+            vetorChaveNumeros[chave.index(caracter)] = total
+        total += 1
     return vetorChaveNumeros
 
 def cifrarDecifrar(opcao,texto,chave):
@@ -99,13 +123,14 @@ if __name__ == '__main__':
         while opcao != "x":
             opcao = input("""######## TRANSPOSICAO DE COLUNAS ########
             1 - Cifrar
-            2 - Decifrar1
+            2 - Decifrar
             x - Sair 
             Digite uma das opções acima: """)
             print("")
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
                 chave = input("Chave: ")
+                print("vetor:", posicoesLetraChave('a', chave))
                 while not validarChave(chave):
                     chave = input("Digite uma chave válida (letras do alfabeto): ")
                 chave = limparTexto(chave)               
@@ -119,7 +144,7 @@ if __name__ == '__main__':
                 chave = limparTexto(chave)  
                 result = cifrarDecifrar(opcao, texto_cifrado, chave)
             else:
-                print("O aplicativo foi encerrado.")
+                print("O aplicativo foi encerrado pelo usuario.")
                 break
             print('Resultado: "%s"' % result)
             print("")
