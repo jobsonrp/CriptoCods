@@ -41,14 +41,16 @@ def cifra(texto, chave):
     return ''.join(matrizReordenada)
 
 def decifra(cifrado, chave):
+    matrizReordenada = list('' for x in range(len(chave)))
     n = len(cifrado)//len(chave)
     matriz_cifrada = [cifrado[i:i+n] for i in range(0, len(cifrado), n)]
     print("Matriz_cifrada = ",matriz_cifrada)
-    matrizReordenada = reordenarMatriz(matriz_cifrada, chave)        
+    for i in range(len(chave)):
+        matrizReordenada[i] = matriz_cifrada[chave[i]-1]      
     print("MatrizReordenada = ",matrizReordenada)
     result = ""
     for y in range(n):
-        result += ''.join([matrizReordenada[chave.index(x)][y:y+1] for x in range(1, len(chave) + 1)])
+        result += ''.join(matrizReordenada)
     return result
 
 def getAlfabeto():
@@ -78,12 +80,12 @@ def intChave(chave):
     vetorPosicaoOrdenado.sort()
     for caracter in vetorPosicao:
         posicao = vetorPosicaoOrdenado.index(caracter)
-        vetorChaveNumeros.append(posicao+1)   
-    print(vetorChaveNumeros)   
+        vetorChaveNumeros.append(posicao+1)      
     return vetorChaveNumeros
 
 def cifrarDecifrar(opcao,texto,chave):
     chave = intChave(chave)
+    print("chaveNum:",chave)
     if opcao == "1":
         texto = limparTexto(texto)
         result = cifra(texto, chave)
