@@ -34,7 +34,7 @@ def cifra(texto, chave):
         for i in range(len(chave) - complemento):
             complementoTexto += alfabeto[randint(0,25)]
         texto += complementoTexto
-    print(texto)
+    print("Texto limpo:",texto)
     matriz, matrizReordenada = texto_matriz(texto, chave)
     print("Matriz = ",matriz)
     print("MatrizReordenada = ",matrizReordenada)
@@ -50,7 +50,7 @@ def decifra(cifrado, chave):
     print("MatrizReordenada = ",matrizReordenada)
     result = ""
     for y in range(n):
-        result += ''.join(matrizReordenada)
+        result += ''.join([matrizReordenada[x-1][y:y+1] for x in range(1, len(chave) + 1)])
     return result
 
 def getAlfabeto():
@@ -85,7 +85,7 @@ def intChave(chave):
 
 def cifrarDecifrar(opcao,texto,chave):
     chave = intChave(chave)
-    print("chaveNum:",chave)
+    print("Chave Numérica:",chave)
     if opcao == "1":
         texto = limparTexto(texto)
         result = cifra(texto, chave)
@@ -97,17 +97,17 @@ if __name__ == '__main__':
     try:
         opcao = ""
         while opcao != "x":
-            opcao = input("""Digite uma das opções abaixo:
+            opcao = input("""######## TRANSPOSICAO DE COLUNAS ########
             1 - Cifrar
-            2 - Decifrar
+            2 - Decifrar1
             x - Sair 
-            """)
-            
+            Digite uma das opções acima: """)
+            print("")
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
                 chave = input("Chave: ")
                 while not validarChave(chave):
-                    chave = input("Digite uma chave válida (letras do alfabeto: ")
+                    chave = input("Digite uma chave válida (letras do alfabeto): ")
                 chave = limparTexto(chave)               
                 result = cifrarDecifrar(opcao, texto_claro, chave)
                     
