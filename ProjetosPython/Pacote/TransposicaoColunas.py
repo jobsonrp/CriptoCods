@@ -67,23 +67,6 @@ def limparTexto(texto):
             novotexto = novotexto.replace(caractere,"")
     return novotexto.upper();
 
-def intChave(chave):
-    alfabeto = getAlfabeto()
-    vetorPosicao = []
-    vetorPosicaoOrdenado = []
-    vetorChaveNumeros = []
-    for caracter in chave:
-        posicao = alfabeto.index(caracter)
-        vetorPosicao.append(posicao)
-        vetorPosicaoOrdenado.append(posicao)
-    vetorPosicaoOrdenado.sort()
-    for caracter in vetorPosicao:
-        posicao = vetorPosicaoOrdenado.index(caracter)
-        if posicao in vetorChaveNumeros:
-            vetorChaveNumeros.append(posicao+1)
-        vetorChaveNumeros.append(posicao+1)      
-    return vetorChaveNumeros
-
 def posicoesLetraChave(letra, chave):
     posicao = 0
     inicio = 0
@@ -95,20 +78,20 @@ def posicoesLetraChave(letra, chave):
     return vetorPosicoesLetra[:-1]
 
 def intChaveLetrasRepetidas(chave):
+    vetor = []
     alfabeto = getAlfabetoCompleto()
     vetorChaveNumeros = list('' for x in range(len(chave)))
     total = 1
     for caracter in alfabeto:
-        
-        if caracter in vetorChaveNumeros:
-            vetorChaveNumeros[chave.index(caracter)] = total + 1
-        else:
-            vetorChaveNumeros[chave.index(caracter)] = total
-        total += 1
+        if caracter in chave:
+            vetor = posicoesLetraChave(caracter, chave)
+            for i in vetor:
+                vetorChaveNumeros[i] = total
+                total += 1
     return vetorChaveNumeros
 
 def cifrarDecifrar(opcao,texto,chave):
-    chave = intChave(chave)
+    chave = intChaveLetrasRepetidas(chave)
     print("Chave Numérica:",chave)
     if opcao == "1":
         texto = limparTexto(texto)
@@ -130,12 +113,10 @@ if __name__ == '__main__':
             if opcao == "1":
                 texto_claro = input("Texto a ser Cifrado: ")
                 chave = input("Chave: ")
-                print("vetor:", posicoesLetraChave('a', chave))
                 while not validarChave(chave):
                     chave = input("Digite uma chave válida (letras do alfabeto): ")
                 chave = limparTexto(chave)               
-                result = cifrarDecifrar(opcao, texto_claro, chave)
-                    
+                result = cifrarDecifrar(opcao, texto_claro, chave)   
             elif opcao == "2":
                 texto_cifrado = input("Texto a ser Decifrado: ")
                 chave = input("Chave: ")
@@ -149,9 +130,7 @@ if __name__ == '__main__':
             print('Resultado: "%s"' % result)
             print("")
         exit()
-
     except Exception as e:
         print('Erro: %s %s' % (e, type(e)))
         exit(1)
-        
         
