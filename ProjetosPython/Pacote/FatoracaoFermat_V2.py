@@ -30,9 +30,12 @@ def fermatFactor(N):
         a = a + 1
     b = sqrt(a**2-N)
     return [a - b,a + b]
-   
-numeroParaFatorar =  1591590107001 # Primos => #1591590107 #101 #65537 #805111
-#print(isPrimo(numeroParaFatorar))
+
+print("######## Fatoracao Fermat ########")
+# Números primos => #1591590107 #101 #65537 #805111
+#numeroParaFatorar = 1591590107001
+numeroParaFatorar = int(input('Digite o número a ser fatorado:'))
+
 if numeroParaFatorar <= 0:
     print('O Numero digitado foi: "',numeroParaFatorar,'". Nao pode ser calculado, pois é <= 0.')
 elif (isPrimo(numeroParaFatorar) == 1):
@@ -41,8 +44,7 @@ else:
     result = fermatFactor(numeroParaFatorar)
     print('parcelas = ',result)
     prova = int(result[0])*int(result[1])
-    print('prova = ',prova)
-
+    print('Prova: %s * %s = %d' % (result[0], result[1], prova) )
     if (numeroParaFatorar == prova):
         print('Prova OK!!')
     else:

@@ -8,7 +8,7 @@ def validarChave(chave):
             return False
     return True
 
-def texto_matriz(texto, chave):
+def criarReordenarMatrizCifra(texto, chave):
     matriz = list('' for x in range(len(chave)))
     y = 0
     for c in texto:
@@ -16,10 +16,10 @@ def texto_matriz(texto, chave):
             y = 0
         matriz[y] += c
         y += 1  
-    matrizReordenada = reordenarMatriz(matriz, chave)          
+    matrizReordenada = reordenarMatrizCifra(matriz, chave)          
     return matriz, matrizReordenada
 
-def reordenarMatriz(matriz, chave):
+def reordenarMatrizCifra(matriz, chave):
     matrizReordenada = list('' for x in range(len(chave)))
     for j in range(len(chave)):
         x = chave[j]-1
@@ -35,7 +35,7 @@ def cifra(texto, chave):
             complementoTexto += alfabeto[randint(0,25)]
         texto += complementoTexto
     print("Texto limpo:",texto)
-    matriz, matrizReordenada = texto_matriz(texto, chave)
+    matriz, matrizReordenada = criarReordenarMatrizCifra(texto, chave)
     print("Matriz = ",matriz)
     print("MatrizReordenada = ",matrizReordenada)
     return ''.join(matrizReordenada)
@@ -90,7 +90,7 @@ def intChaveLetrasRepetidas(chave):
                 total += 1
     return vetorChaveNumeros
 
-def cifrarDecifrar(opcao,texto,chave):
+def funcaoCifrarDecifrar(opcao,texto,chave):
     chave = intChaveLetrasRepetidas(chave)
     print("Chave Numérica:",chave)
     if opcao == "1":
@@ -116,14 +116,14 @@ if __name__ == '__main__':
                 while not validarChave(chave):
                     chave = input("Digite uma chave válida (letras do alfabeto): ")
                 chave = limparTexto(chave)               
-                result = cifrarDecifrar(opcao, texto_claro, chave)   
+                result = funcaoCifrarDecifrar(opcao, texto_claro, chave)   
             elif opcao == "2":
                 texto_cifrado = input("Texto a ser Decifrado: ")
                 chave = input("Chave: ")
                 while not validarChave(chave):
                     chave = input("Digite uma chave válida (letras do alfabeto: ")
                 chave = limparTexto(chave)  
-                result = cifrarDecifrar(opcao, texto_cifrado, chave)
+                result = funcaoCifrarDecifrar(opcao, texto_cifrado, chave)
             else:
                 print("O aplicativo foi encerrado pelo usuario.")
                 break
